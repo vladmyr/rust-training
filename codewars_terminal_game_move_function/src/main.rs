@@ -10,5 +10,6 @@ fn move_hero(position: u32, roll: u32) -> u32 {
 }
 
 fn main() {
-    println!("Hello, world!");
+    assert_eq!(move_hero(0, 4), 8);
+    assert_eq!(move_hero(3, 6), 15);
 }
