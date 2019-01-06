@@ -1,0 +1,7 @@
+[package]
+name = "codewards_convert_number_to_string"
+version = "0.1.0"
+authors = ["Volodymyr Khytskyi <khytsky.vladimir@gmail.com>"]
+edition = "2018"
+
+[dependencies]
