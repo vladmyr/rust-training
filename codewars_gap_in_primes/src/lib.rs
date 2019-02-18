@@ -24,8 +24,25 @@ pub fn sieve(n: usize) -> Vec<usize> {
 
 pub fn gap(g: i32, m: u64, n: u64) -> Option<(u64, u64)> {
     if g < 2 || m < 3 || n < m {
-        return None
+        return None;
     }
+
+    let pairs: (u64, u64) = sieve(n as usize)
+        .iter()
+        .filter(|x| (**x as u64) >= m)
+        .fold(Vec::new() as Vec<(u64, u64)>, |mut acc, x| {
+            match acc.last() {
+                None => acc.push((0, *x as u64)),
+                Some(y) => acc.push((y.1, *x as u64))
+            }
+
+            acc
+        })
+        // .iter()
+        // .skip(1)
+        // .filter(|x| x.1 - x.0 != g as u64)
+        // .take(1)
+        ;
 
     None
 }
