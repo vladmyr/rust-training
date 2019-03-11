@@ -1,0 +1,7 @@
+[package]
+name = "codewars_integers_recreation_one"
+version = "0.1.0"
+authors = ["Volodymyr Khytskyi <khytsky.vladimir@gmail.com>"]
+edition = "2018"
+
+[dependencies]
