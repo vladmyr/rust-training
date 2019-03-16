@@ -13,21 +13,25 @@ fn divisors(n: u64) -> Vec<u64> {
 }
 
 fn gcd(l: Vec<u64>) -> u64 {
-    l
+    let divisors_matrix = l
       .iter()
       .map(|x| divisors(*x))
-      .map(|mut x| { 
-        x.sort(); 
-        x 
-      })
-      .collect::<Vec<Vec<u64>>>()
-      .map()
-      // .fold(1, |acc, m| {
+      .collect::<Vec<Vec<u64>>>();
 
-      // })
-      ;
+    let mut common_divisors = divisors_matrix
+      .iter()
+      .take(1)
+      .flat_map(|x| x
+        .iter()
+        .filter(|x| divisors_matrix.iter().skip(1).all(|y| y.contains(x)))
+        .map(|x| *x)
+        .collect::<Vec<u64>>()
+      )
+      .collect::<Vec<u64>>();
+    
+    common_divisors.sort();
 
-    0
+    *common_divisors.last().unwrap_or(&0)
 }
 
 pub fn convert_fracts(l: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
@@ -54,5 +58,20 @@ mod tests {
     let mut res = divisors(24);
     res.sort();
     assert_eq!(vec![1, 2, 3, 4, 6, 8, 12, 24], res);
+  }
+
+  #[test]
+  fn gcd_test_0() {
+    assert_eq!(0, gcd(vec![]));
+  }
+
+  #[test]
+  fn gcd_test_54() {
+    assert_eq!(54, gcd(vec![54]));
+  }
+
+  #[test]
+  fn gcd_test_54_24() {
+    assert_eq!(6, gcd(vec![54, 24]));
   }
 }
