@@ -60,10 +60,30 @@ pub fn convert_fracts(l: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
 
   let lcm = lcm(&denoms);
   
-  let fractions = l
+  let mut fractions = l
     .iter()
     .map(|(x, y)| (lcm / y * x, lcm))
     .collect::<Vec<(i64, i64)>>();
+
+  let mut fractions_iter = fractions.iter();
+
+  let gcd = gcd(&fractions_iter
+    .next()
+    .map(|(x, y)| {
+      fractions_iter.fold(vec![*x, *y], |mut acc, (x, _)| {
+        acc.push(*x);
+        acc
+      })
+    })
+    .unwrap_or(Vec::new())
+  );
+
+  if gcd > 1 {
+    fractions = fractions
+      .iter()
+      .map(|(x, y)| (x / gcd, y / gcd))
+      .collect::<Vec<(i64, i64)>>();
+  }
 
   fractions
 }
