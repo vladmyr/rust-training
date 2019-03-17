@@ -13,21 +13,20 @@ fn divisors(n: u64) -> Vec<u64> {
 }
 
 fn gcd(l: Vec<u64>) -> u64 {
-    let divisors_matrix = l
+    let mut divisors_iter = l
       .iter()
-      .map(|x| divisors(*x))
-      .collect::<Vec<Vec<u64>>>();
+      .map(|x| divisors(*x));
 
-    let mut common_divisors = divisors_matrix
-      .iter()
-      .take(1)
-      .flat_map(|x| x
-        .iter()
-        .filter(|x| divisors_matrix.iter().skip(1).all(|y| y.contains(x)))
-        .map(|x| *x)
-        .collect::<Vec<u64>>()
+    let mut common_divisors = divisors_iter
+      .next()
+      .map(|divisors| divisors_iter
+        .fold(divisors, |x, y| x
+          .into_iter()
+          .filter(|z| y.contains(z))
+          .collect::<Vec<u64>>()
+        )
       )
-      .collect::<Vec<u64>>();
+      .unwrap_or(Vec::new());
     
     common_divisors.sort();
 
